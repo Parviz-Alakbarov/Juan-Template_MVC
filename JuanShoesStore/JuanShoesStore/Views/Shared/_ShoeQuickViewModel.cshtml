@@ -1,0 +1,77 @@
+﻿@model Shoe
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body">
+        <!-- product details inner end -->
+        <div class="product-details-inner">
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="product-large-slider mb-20">
+                        <div class="pro-large-img img-zoom">
+                            <img src="~/uploads/product/@Model.Image" alt="product thumb" />
+                        </div>
+                    </div>
+                    @*<div class="pro-nav slick-row-5">
+                        <div class="pro-nav-thumb"><img src="~/assets/img/product/product-details-img1.jpg" alt="" /></div>
+                        </div>*@
+                </div>
+                <div class="col-lg-7">
+                    <div class="product-details-des">
+                        <h3 class="pro-det-title">Primitive Mens Premium Shoes</h3>
+                        <div class="pro-review">
+                            <span><a href="#">@*@(Model.Reviews.Count)*@ Review(s)</a></span>
+                        </div>
+                        <div class="price-box">
+                            @if (Model.DiscountPercent > 0)
+                            {
+                                <span class="price-regular">$@((Model.SalePrice*(1-Model.DiscountPercent/(decimal)100)).ToString("0.00"))</span>
+                                <span class="price-old"><del>$@Model.SalePrice</del></span>
+
+                                <br />
+                                <span style="display:inline-block" class="text-danger mt-3">Discount: @Model.DiscountPercent%</span>
+                            }
+                            else
+                            {
+                                <span class="price-regular">$@(Model.SalePrice)</span>
+                            }
+                        </div>
+                        <p>@Model.Desc</p>
+                        <div class="quantity-cart-box d-flex align-items-center mb-20">
+                            <div class="quantity">
+                                <div class="pro-qty"><input type="text" value="1"></div>
+                            </div>
+                            <a style="@(Model.IsAvailable==true? "":"pointer-events:none; background-color:gray")" asp-action="addToBasket" asp-controller="shoe" asp-route-id="@Model.Id" id="shoe-addTo-basket" class="btn btn-default">Add To Cart</a>
+                        </div>
+                        <div class="color-option">
+                            <h5 class="cat-title">Colors :</h5>
+                            <ul>
+                                @foreach (var color in Model.ShoeColorItems)
+                                {
+                                    <li>
+                                        <a style="background-color:@color.Color.HexValue" href="#" title="Black"></a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="availability ">
+                            <h5 class="cat-title">Brand:</h5>
+                            <span>@Model.Brand.Name</span>
+                        </div>
+                        <div class="availability ">
+                            <h5 class="cat-title">Category:</h5>
+                            <span>@Model.Category.Name</span>
+                        </div>
+                        <div class="availability mb-20">
+                            <h5 class="cat-title">Availability:</h5>
+                            <span>@(Model.IsAvailable==true?"In Stock":"Out of Stock")</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- product details inner end -->
+    </div>
+</div>

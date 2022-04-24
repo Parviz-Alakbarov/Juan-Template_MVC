@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20220128070223_ShoeTableCreated.cs" />
+    <Compile Remove="Migrations\20220128070223_ShoeTableCreated.Designer.cs" />
+    <Compile Remove="Migrations\20220128141057_PartnersTableAdded.cs" />
+    <Compile Remove="Migrations\20220128141057_PartnersTableAdded.Designer.cs" />
+    <Compile Remove="Migrations\20220130075524_BrandIdColumnChanged.cs" />
+    <Compile Remove="Migrations\20220130075524_BrandIdColumnChanged.Designer.cs" />
+    <Compile Remove="Migrations\20220201151602_CategoryColumCreated.cs" />
+    <Compile Remove="Migrations\20220201151602_CategoryColumCreated.Designer.cs" />
+    <Compile Remove="Migrations\20220201170836_CategoryTableCreated.cs" />
+    <Compile Remove="Migrations\20220201170836_CategoryTableCreated.Designer.cs" />
+    <Compile Remove="Migrations\20220201173323_CategoryTableCreated.cs" />
+    <Compile Remove="Migrations\20220201173323_CategoryTableCreated.Designer.cs" />
+    <Compile Remove="Migrations\20220201173727_CategoryTableCreated.cs" />
+    <Compile Remove="Migrations\20220201173727_CategoryTableCreated.Designer.cs" />
+    <Compile Remove="Migrations\20220201174619_CategoryRelationAdded.cs" />
+    <Compile Remove="Migrations\20220201174619_CategoryRelationAdded.Designer.cs" />
+    <Compile Remove="Migrations\20220201174735_CategoryRelationAdded.cs" />
+    <Compile Remove="Migrations\20220201174735_CategoryRelationAdded.Designer.cs" />
+    <Compile Remove="Migrations\20220202051451_AppUserTableCreated.cs" />
+    <Compile Remove="Migrations\20220202051451_AppUserTableCreated.Designer.cs" />
+    <Compile Remove="Migrations\20220206041007_CommentsTableCreated.cs" />
+    <Compile Remove="Migrations\20220206041007_CommentsTableCreated.Designer.cs" />
+    <Compile Remove="Migrations\20220207011116_ContactUsTableCreated.cs" />
+    <Compile Remove="Migrations\20220207011116_ContactUsTableCreated.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.22" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.22" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.22" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.22" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.22">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\templates\" />
+  </ItemGroup>
+
+</Project>

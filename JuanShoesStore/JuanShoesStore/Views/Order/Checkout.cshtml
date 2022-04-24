@@ -1,0 +1,129 @@
+﻿@model CheckoutViewModel
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<!-- main wrapper start -->
+<main>
+    <!-- breadcrumb area start -->
+    <div class="breadcrumb-area bg-img" data-bg="assets/img/banner/breadcrumb-banner.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-wrap text-center">
+                        <nav aria-label="breadcrumb">
+                            <h1 class="breadcrumb-title">Checkout</h1>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a asp-action="index" asp-controller="home">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb area end -->
+    <!-- checkout main wrapper start -->
+    <div class="checkout-page-wrapper section-padding">
+        <div class="container">
+
+            <div class="row">
+                <!-- Checkout Billing Details -->
+                <div class="col-lg-6">
+                    <div class="checkout-billing-details-wrap">
+                        <h4 class="checkout-title">Billing Details</h4>
+                        <div class="billing-form-wrap">
+                            @Html.Partial("_CheckoutFormPartial",Model.Order)
+                        </div>
+                    </div>
+                </div>
+                <!-- Order Summary Details -->
+                <div class="col-lg-6">
+                    <div class="order-summary-details">
+                        <h4 class="checkout-title">Your Order Summary</h4>
+                        <div class="order-summary-content">
+                            <!-- Order Summary Table -->
+                            <div class="order-summary-table table-responsive text-center">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Products</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in @Model.BasketVM.BasketItemDVM)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <a asp-controller="show" asp-action="detail" asp-route-id="@item.Shoe.Id">@item.Shoe.Name <strong> × @item.Count</strong></a>
+                                                </td>
+                                                <td>$@((item.Shoe.SalePrice*(1-(decimal)item.Shoe.DiscountPercent/100)).ToString("0.00"))</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td>Sub Total</td>
+                                            <td><strong>$@Model.BasketVM.BasketTotalPrice.ToString("0.00")</strong></td>
+                                        </tr>
+                                        @if (@Model.BasketVM.BasketItemDVM.Count > 0)
+                                        {
+                                            <tr>
+                                                <td>Shipping</td>
+                                                <td class="d-flex justify-content-center">
+                                                    <ul class="shipping-type">
+                                                        <li>
+                                                            <div class="custom-control custom-radio" style="height:24px">
+                                                                <input type="checkbox"    id="freeshipping" name="shipping" class="custom-control-input" required />
+                                                                <label class="custom-control-label" for="freeshipping">Shipping Price: $30.00 </label>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            Model.BasketVM.BasketTotalPrice += 30;
+                                        }
+                                        <tr>
+                                            <td>Total Amount</td>
+                                            <td><strong>$@Model.BasketVM.BasketTotalPrice.ToString("0.00")</strong></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            
+                            <!-- Order Payment Method -->
+                            <div class="order-payment-method">
+                                <div class="single-payment-method show">
+                                    <div class="payment-method-name">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="cashon" name="paymentmethod" value="cash" class="custom-control-input" checked />
+                                            <label class="custom-control-label" for="cashon">Cash On Delivery</label>
+                                        </div>
+                                    </div>
+                                    <div class="payment-method-details" data-method="cash">
+                                        <p>Pay with cash upon delivery.</p>
+                                    </div>
+                                </div>
+
+                                <div class="summary-footer-area">
+                                    <div class="custom-control custom-checkbox mb-20">
+                                        <input type="checkbox" class="custom-control-input" id="terms" required />
+                                        <label class="custom-control-label" for="terms">
+                                            I have read and agree to
+                                            the website terms and conditions.
+                                        </label>
+                                    </div>
+                                    <button form="chckout-form" type="submit" class="btn btn-sqr">Place Order</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- checkout main wrapper end -->
+</main>
+<!-- main wrapper end -->

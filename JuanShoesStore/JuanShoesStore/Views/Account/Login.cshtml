@@ -1,0 +1,65 @@
+﻿@model MemberLoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<main>
+    <!-- breadcrumb area start -->
+    <div class="breadcrumb-area bg-img" data-bg="~/assets/img/banner/breadcrumb-banner.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-wrap text-center">
+                        <nav aria-label="breadcrumb">
+                            <h1 class="breadcrumb-title">Login-Register</h1>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a  asp-action="index" asp-controller="home">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Login</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb area end -->
+    <!-- login wrapper start -->
+    <div class="login-register-wrapper section-padding">
+        <div class="container">
+            <div class="member-area-from-wrap">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="login-reg-form-wrap">
+                            <h2>Sign In</h2>
+                            <form action="login" method="post">
+                                <div class="single-input-item">
+                                    <input asp-for="UserName" placeholder="Email or Username" required />
+                                </div>
+                                <div class="single-input-item">
+                                    <input asp-for="Password" placeholder="Enter your Password" required />
+                                </div>
+                                <div class="single-input-item">
+                                    <div class="login-reg-form-meta d-flex align-items-center justify-content-between">
+                                        <div class="remember-meta">
+                                            <div class="custom-control custom-checkbox">
+                                                <input asp-for="RememberMe" class="custom-control-input" id="RememberMe">
+                                                <label class="custom-control-label" asp-for="RememberMe">Remember Me</label>
+                                            </div>
+                                        </div>
+                                        <a asp-action="forgotPassword" class="forget-pwd">Forgot Password?</a>
+                                    </div>
+                                </div>
+                                <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                                <div class="single-input-item">
+                                    <button type="submit" class="btn">Login</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- login register wrapper end -->
+</main>

@@ -1,0 +1,57 @@
+﻿@model Order
+<form id="chckout-form" action="create" method="post">
+
+     <div class="single-input-item text-danger" asp-validation-summary="ModelOnly">
+       
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="single-input-item">
+                <label asp-for="FullName" class="required">Full Name</label>
+                <input asp-for="FullName" placeholder="Enter FullName" required />
+                <span class="text-danger" asp-validation-for="FullName"></span>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="single-input-item">
+                <label asp-for="PhoneNumber" class="required">Phone Number</label>
+                <input asp-for="PhoneNumber" placeholder="Enter PhoneNumber" required />
+                <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+            </div>
+        </div>
+    </div>
+    <div class="single-input-item">
+        <label asp-for="Email" class="required">Email</label>
+        <input asp-for="Email" placeholder="Enter Email" required />
+        <span class="text-danger" asp-validation-for="Email"></span>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="single-input-item">
+                <label asp-for="Country" class="required">Country</label>
+                <input asp-for="Country" placeholder="Enter Country" required />
+                <span class="text-danger" asp-validation-for="Country"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="single-input-item">
+                <label asp-for="City" class="required">City</label>
+                <input asp-for="City" placeholder="Enter City" required />
+                <span class="text-danger" asp-validation-for="City"></span>
+            </div>
+        </div>
+    </div>
+    <div class="single-input-item">
+        <label asp-for="Address">Address </label>
+        <textarea asp-for="Address" id="ordernote" cols="30" rows="2" placeholder="Notes about your detailed address.Important for your delivery."></textarea>
+        <span class="text-danger" asp-validation-for="Address"></span>
+    </div>
+    <div class="single-input-item">
+        <label asp-for="Note">Note </label>
+        <textarea asp-for="Note" id="ordernote" cols="30" rows="4" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+        <span class="text-danger" asp-validation-for="Note"></span>
+    </div>
+    
+</form>

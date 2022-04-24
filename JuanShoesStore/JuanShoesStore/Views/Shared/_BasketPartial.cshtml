@@ -1,0 +1,57 @@
+﻿@model BasketViewModel
+@{
+    var VatPrice = Model.BasketTotalPrice * Model.VatPercent / 100;
+    var TaxPrice = Model.BasketTotalPrice * Model.TaxPercent / 100;
+}
+
+<div class="minicart-item-wrapper">
+    <input type="hidden" id="basket-items-count" value="@Model.BasketItemDVM.Count" />
+    <ul>
+        @foreach (var item in Model.BasketItemDVM)
+        {
+            <li class="minicart-item">
+                <div class="minicart-thumb">
+                    <a asp-action="detail" asp-controller="shoe" asp-route-id="@item.Shoe.Id">
+                        <img src="~/uploads/product/@item.Shoe.Image" alt="product">
+                    </a>
+                </div>
+                <div class="minicart-content">
+                    <h3 class="product-name">
+                        <a asp-route-id="@item.Shoe.Id" asp-action="detail" asp-controller="shoe">@item.Shoe.Name</a>
+                    </h3>
+                    <p>
+                        <span class="cart-quantity">@item.Count <strong>&times;</strong></span>
+                        <span class="cart-price">$@((item.Shoe.SalePrice*(1-((decimal)item.Shoe.DiscountPercent/100))).ToString("0.00"))</span>
+                    </p>
+                </div>
+                <button class="minicart-remove"><a style="display:block" asp-action="removeFromBasket" asp-controller="shoe" asp-route-id="@item.Shoe.Id" id="remove-from-basket"><i class="ion-android-close"></i></a> </button>
+            </li>
+        }
+    </ul>
+</div>
+
+<div class="minicart-pricing-box">
+    <ul>
+        <li>
+            <span>sub-total</span>
+            <span><strong>$@Model.BasketTotalPrice.ToString("0.00")</strong></span>
+        </li>
+        <li>
+            <span>Eco Tax (-2.00)</span>
+            <span><strong>$@TaxPrice.ToString("0.00")</strong></span>
+        </li>
+        <li>
+            <span>VAT (20%)</span>
+            <span><strong>$@VatPrice.ToString("0.00")</strong></span>
+        </li>
+        <li class="total">
+            <span>total</span>
+            <span><strong>$@((Model.BasketTotalPrice+VatPrice+TaxPrice).ToString("0.00"))</strong></span>
+        </li>
+    </ul>
+</div>
+
+<div class="minicart-button">
+    <a href="cart.html"><i class="fa fa-shopping-cart"></i> view cart</a>
+    <a asp-controller="order" asp-action="checkout"><i class="fa fa-share"></i> checkout</a>
+</div>

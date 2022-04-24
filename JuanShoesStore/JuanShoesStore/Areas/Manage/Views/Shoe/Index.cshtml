@@ -1,0 +1,134 @@
+﻿@model Pagination<Shoe>
+@{
+    ViewData["Title"] = "Index";
+    int counter = (Model.CurrentPage - 1) * Model.ItemsPerPage;
+    int temp = -1;
+    int TabPerPage = 3;
+    if (Model.CurrentPage == Model.TotalPage && TabPerPage <= Model.TotalPage) { temp = -2; }
+    if (Model.CurrentPage == 1) { temp = 0; }
+    if (TabPerPage > Model.TotalPage)
+    {
+        TabPerPage = Model.TotalPage;
+    }
+    var isDeleted = ViewBag.IsDeleted;
+}
+
+<div class="content-wrapper">
+    <div class="container-fluid">
+
+        <div class="row mt-3">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="col-lg-12 d-flex justify-content-between ">
+                            <h5 class="card-title">Product Table</h5>
+
+                            <form asp-action="index" method="get" class="d-flex">
+                                <div class="form-group" style="margin: auto 0;">
+
+                                    <select class="form-select form-select-lg; background-color:white;color:black;" style="padding:5px 15px; border-radius:5px;" name="isDeleted">
+                                        <!option style="background-color:white;color:black;" value="" @(isDeleted==null?"selected":"") >All</!option>
+                                        <!option  style="background-color:white;color:black;" value="false" @(isDeleted==false?"selected":"")>Deleted</!option>
+                                        <!option  style="background-color:white;color:black;" value="true" @(isDeleted==true?"selected":"")>Not Deleted</!option>
+                                    </select>
+
+                                </div>
+                                <button type="submit" class="btn btn-primary ml-2">Filter</button>
+
+                            </form>
+
+                            <a asp-action="create" class="btn btn-info mb-2">+ Create Product</a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">BrandName</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">CostPrice</th>
+                                        <th scope="col">SalePrice</th>
+                                        <th scope="col">Image</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var shoe in Model)
+                                    {
+                                        counter++;
+
+                                        <tr>
+                                            <th scope="row">@counter</th>
+                                            <td>@shoe.Brand.Name</td>
+                                            <td>@shoe.Name</td>
+                                            <td>@shoe.CostPrice</td>
+                                            <td>@shoe.SalePrice</td>
+                                            <td>
+                                                <img style="border-radius:5px" width="70px" src="~/uploads/product/@shoe.Image" />
+                                            </td>
+                                            <td class="text-right">
+
+                                                <a asp-action="edit" asp-route-id="@shoe.Id" class="btn btn-warning">Edit</a>
+
+                                                <a asp-action="@(shoe.IsDeleted?"restore":"delete")" asp-route-Id="@shoe.Id" class="btn btn-@(shoe.IsDeleted?"info":"danger") ml-1 @(shoe.IsDeleted?"confirmRestore":"confirmDelete")"> @(shoe.IsDeleted?"Restore":"Delete")</a>
+                                            </td>
+
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-12 mt-3 d-flex justify-content-center">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="page-item @(Model.CurrentPage==1? "disabled" :"")">
+                                        <a class="page-link" asp-route-page="1" asp-route-isDeleted="@isDeleted" tabindex="-1">@("<<")</a>
+                                    </li>
+                                    <li class="page-item @(Model.CurrentPage<=1? "disabled" :"")">
+                                        <a class="page-link" asp-route-page="@(Model.CurrentPage-1)" asp-route-isDeleted="@isDeleted" tabindex="-1">@("<")</a>
+                                    </li>
+
+                                    @if (Model.CurrentPage - 2 >= 1)
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link" asp-route-page="@(Model.CurrentPage-2)" asp-route-isDeleted="@isDeleted" tabindex="-1">@("...")</a>
+                                        </li>
+                                    }
+
+                                    @for (var i = 1; i <= TabPerPage; i++, temp++)
+                                    {
+                                        <li class="page-item @(temp == 0? " bg-dark" : "")">
+                                            <a class="page-link" asp-route-page="@(Model.CurrentPage+temp)" asp-route-isDeleted="@isDeleted">@(Model.CurrentPage+temp)</a>
+                                        </li>
+                                    }
+                                    @if (Model.CurrentPage + 2 <= Model.TotalPage)
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link" asp-route-page="@(Model.CurrentPage+2)" asp-route-isDeleted="@isDeleted" tabindex="-1">@("...")</a>
+                                        </li>
+                                    }
+
+                                    <li class="page-item @(Model.CurrentPage>=Model.TotalPage? "disabled" :"")">
+                                        <a class="page-link" asp-route-page="@(Model.CurrentPage+1)" asp-route-isDeleted="@isDeleted" tabindex="-1">@(">")</a>
+                                    </li>
+                                    <li class="page-item @(Model.CurrentPage==Model.TotalPage? "disabled" :"") ">
+                                        <a class="page-link" asp-route-page="@Model.TotalPage" asp-route-isDeleted="@isDeleted" tabindex="-1">@(">>")</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="overlay toggle-menu"></div>
+            <!--end overlay-->
+
+        </div>
+        <!-- End container-fluid-->
+
+    </div><!--End content-wrapper-->
+
+
+</div><!--End wrapper-->

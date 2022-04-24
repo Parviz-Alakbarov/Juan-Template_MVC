@@ -1,0 +1,382 @@
+﻿@model ShopViewModel
+@{
+    ViewData["Title"] = "Index";
+
+    int counter = (Model.Shoes.CurrentPage - 1) * Model.Shoes.ItemsPerPage;
+    int temp = -1;
+    int tabPerPage = 3;
+    if (Model.Shoes.CurrentPage == Model.Shoes.TotalPage && tabPerPage <= Model.Shoes.TotalPage) { temp = -2; }
+    if (Model.Shoes.CurrentPage == 1) { temp = 0; }
+    if (tabPerPage > Model.Shoes.TotalPage)
+    {
+        tabPerPage = Model.Shoes.TotalPage;
+    }
+
+}
+
+
+<!-- main wrapper start -->
+<main>
+    <!-- breadcrumb area start -->
+    <div class="breadcrumb-area bg-img" data-bg="assets/img/banner/breadcrumb-banner.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-wrap text-center">
+                        <nav aria-label="breadcrumb">
+                            <h1 class="breadcrumb-title">shop</h1>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a asp-controller="home" asp-action="index">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">shop</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb area end -->
+    <!-- page main wrapper start -->
+    <div class="shop-main-wrapper section-padding">
+        <div class="container">
+            <div class="row">
+                <!-- sidebar area start -->
+                <div class="col-lg-3 order-2 order-lg-1">
+                    <div class="sidebar-wrapper">
+                        <!-- single sidebar start -->
+                        <div class="sidebar-single">
+                            <div class="sidebar-title">
+                                <h3>Gender</h3>
+                            </div>
+                            <div class="sidebar-body">
+                                <ul class="gender-list">
+                                    <li>
+                                        <div class="form-check h5">
+                                            <input form="ShopFilter" name="gender" class="form-check-input" style="width:16px; height:16px" type="radio" @(ViewBag.Gender==true?"checked":"") value="true" id="gender-male">
+                                            <label class="form-check-label d-flex justify-content-between pl-2" for="gender-male">
+                                                Male <span>(@Model.MaleGenderCount)</span>
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-check h5">
+                                            <input form="ShopFilter" name="gender" class="form-check-input" style="width:16px; height:16px" type="radio" @(ViewBag.Gender==false?"checked":"") value="false" id="gender-female">
+                                            <label class="form-check-label d-flex justify-content-between pl-2" for="gender-female">
+                                                Female <span>(@Model.FemaleGenderCount)</span>
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-check h5">
+                                            <input form="ShopFilter" name="gender" class="form-check-input" style="width:16px; height:16px" type="radio" @(ViewBag.Gender==null?"checked":"") value="" id="gender-uni">
+                                            <label class="form-check-label d-flex justify-content-between pl-2" for="gender-uni">
+                                                UniSex <span>(@(Model.MaleGenderCount+Model.FemaleGenderCount))</span>
+                                            </label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- single sidebar end -->
+                        <!-- single sidebar start -->
+                        <div class="sidebar-single">
+                            <div class="sidebar-title">
+                                <h3>Categories</h3>
+                            </div>
+                            <div class="sidebar-body" style="height:300px;overflow-y:auto">
+                                <ul class="color-list">
+                                    @foreach (var brand in Model.Brands)
+                                    {
+                                        <li>
+                                            <div class="form-check h5">
+                                                <input form="ShopFilter" name="brandIds" @((Model.FilterBrandIds!=null && Model.FilterBrandIds.Contains(brand.Id))?"checked":"") class="form-check-input" style="width:16px; height:16px" type="checkbox" value="@brand.Id" id="brand-@brand.Id">
+                                                <label class="form-check-label d-flex justify-content-between pl-2" for="brand-@brand.Id">
+                                                    @brand.Name <span>(@brand.Shoes.Count)</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                    }
+
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- single sidebar end -->
+                        <!-- single sidebar start -->
+                        <div class="sidebar-single">
+                            <div class="sidebar-title">
+                                <h3>filter by price</h3>
+                            </div>
+                            <div class="sidebar-body">
+                                <div class="price-range-wrap">
+                                    <div class="price-range" data-min="@((int)Model.MinPrice)" data-max="@((int)Model.MaxPrice)"></div>
+                                    <div class="range-slider">
+                                        <div class="price-input">
+                                            <label for="amount">Price: </label>
+                                            <input type="text" id="amount">
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" form="ShopFilter" name="minPrice" id="minPriceInput" />
+                                <input type="hidden" form="ShopFilter" name="maxPrice" id="maxPriceInput" />
+                            </div>
+                        </div>
+                        <!-- single sidebar end -->
+                        <!-- single sidebar start -->
+                        <div class="sidebar-single">
+                            <div class="sidebar-title">
+                                <h3>color</h3>
+                            </div>
+                            <div class="sidebar-body" style="height:300px;overflow-y:auto">
+                                <ul class="color-list">
+                                    @foreach (var color in Model.Colors)
+                                    {
+                                        <li>
+                                            <div class="form-check h5">
+                                                <input form="ShopFilter" name="colorIds" @((Model.FilterColorIds!=null && Model.FilterColorIds.Contains(color.Id))?"checked":"") class="form-check-input" style="width:16px; height:16px" type="checkbox" value="@color.Id" id="color-@color.Id">
+                                                <label class="form-check-label d-flex justify-content-between pl-2" for="color-@color.Id">
+                                                    @color.Name <span>(@color.ShoeColorItems.Count)</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- single sidebar end -->
+                        <div class="sidebar-single">
+                            <div class="sidebar-body">
+                                <div class="price-range-wrap">
+                                    <div class="range-slider">
+                                        <form id="ShopFilter" method="get" asp-action="index" asp-controller="shoe">
+                                            <button style="width:100%; padding:10px 0; font-size:20px" type="submit" class="filter-btn">filter</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- single sidebar start -->
+                        <div class="sidebar-single">
+                            <div class="sidebar-banner">
+                                <a href="#">
+                                    <img src="~/uploads/settings/@Model.Settings["ShopLeftBannerImage"]" alt="">
+                                </a>
+                            </div>
+                        </div>
+                        <!-- single sidebar end -->
+                    </div>
+                </div>
+                <!-- sidebar area end -->
+                <!-- shop main wrapper start -->
+                <div class="col-lg-9 order-1 order-lg-2">
+                    <div class="shop-product-wrapper">
+                        <!-- shop product top wrap start -->
+                        <div class="shop-top-bar">
+                            <div class="row">
+                                <div class="col-xl-5 col-lg-4 col-md-3 order-2 order-md-1">
+                                    <div class="top-bar-left">
+                                        <div class="product-view-mode">
+                                            <a class="active" href="#" data-target="grid-view"><i class="fa fa-th"></i></a>
+                                            <a href="#" data-target="list-view"><i class="fa fa-list"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-7 col-lg-8 col-md-9 order-1 order-md-2">
+                                    <div class="top-bar-right">
+                                        <div class="product-short">
+                                            <p>Sort By : </p>
+                                            <select class="nice-select" name="sortby">
+                                                <option value="trending">Relevance</option>
+                                                <option value="sales">Name (A - Z)</option>
+                                                <option value="sales">Name (Z - A)</option>
+                                                <option value="rating">Price (Low &gt; High)</option>
+                                                <option value="date">Rating (Lowest)</option>
+                                                <option value="price-asc">Model (A - Z)</option>
+                                                <option value="price-asc">Model (Z - A)</option>
+                                            </select>
+                                        </div>
+                                        <div class="product-amount">
+                                            <p>Showing 1–16 of 21 results</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- shop product top wrap start -->
+                        <!-- product item list start -->
+                        <div class="shop-product-wrap grid-view row mbn-50">
+
+                            @foreach (Shoe shoe in Model.Shoes)
+                            {
+                                <div class="col-lg-4 col-sm-6">
+                                    <!-- product grid item start -->
+                                <div class="product-item mb-53">
+                                        <div class="product-thumb">
+                                            <a asp-action="detail" asp-route-id="@shoe.Id">
+                                                <img src="~/uploads/product/@shoe.Image" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="product-content">
+                                            <h5 class="product-name">
+                                                <a asp-action="detail" asp-route-id="@shoe.Id">@shoe.Name</a>
+                                            </h5>
+                                            <div class="price-box">
+                                                @if (shoe.DiscountPercent > 0)
+                                                {
+                                                    <span class="price-regular">$@((shoe.SalePrice*(1-shoe.DiscountPercent/(decimal)100)).ToString("0.00"))</span>
+                                                    <span class="price-old"><del>$@shoe.SalePrice</del></span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="price-regular">$@(shoe.SalePrice)</span>
+                                                }
+                                            </div>
+                                            <div class="product-action-link">
+                                                <a href="#" data-toggle="tooltip" title="Wishlist"><i class="ion-android-favorite-outline"></i></a>
+                                                <a asp-action="addToBasket" asp-controller="shoe" asp-route-id="@shoe.Id" id="shoe-addTo-basket" data-toggle="tooltip" title="Add To Cart"><i class="ion-bag"></i></a>
+                                                <a asp-action="getShoe" asp-controller="shoe" asp-route-id="@shoe.Id" id="shoe-quick-view">
+                                                    <span data-toggle="tooltip"
+                                                      title="Quick View"><i class="ion-ios-eye-outline"></i></span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- product grid item end -->
+                                    <!-- product list item start -->
+                                <div class="product-list-item mb-30">
+                                        <div class="product-thumb">
+                                            <a asp-action="detail" asp-route-id="@shoe.Id">
+                                                <img src="~/uploads/product/@shoe.Image" alt="product thumb">
+                                            </a>
+                                        </div>
+                                        <div class="product-content-list">
+                                            <h5 class="product-name">
+                                                <a asp-action="detail" asp-route-id="@shoe.Id">@shoe.Name</a>
+                                            </h5>
+                                            <div class="price-box">
+                                                @if (shoe.DiscountPercent > 0)
+                                                {
+                                                    <span class="price-regular">$@((shoe.SalePrice*(1-shoe.DiscountPercent/(decimal)100)).ToString("0.00"))</span>
+                                                    <span class="price-old"><del>$@shoe.SalePrice</del></span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="price-regular">$@(shoe.SalePrice)</span>
+                                                }
+                                            </div>
+                                            <p>
+                                                @(shoe.Desc!=null && shoe.Desc.Length>250?shoe.Desc.Substring(0,250)+"...":shoe.Desc)
+                                            </p>
+                                            <div class="product-link-2 position-static">
+                                                <a href="#" data-toggle="tooltip" title="Wishlist"><i class="ion-android-favorite-outline"></i></a>
+                                                <a asp-action="addToBasket" asp-controller="shoe" asp-route-id="@shoe.Id" id="shoe-addTo-basket" data-toggle="tooltip" title="Add To Cart"><i class="ion-bag"></i></a>
+                                                <a asp-action="getShoe" asp-controller="shoe" asp-route-id="@shoe.Id" id="shoe-quick-view">
+                                                    <span data-toggle="tooltip"
+                                                      title="Quick View"><i class="ion-ios-eye-outline"></i></span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- product list item start -->
+                            </div>
+                            }
+
+                        </div>
+                        <!-- product item list end -->
+                        <!-- start pagination area -->
+                        <div class="paginatoin-area text-center mt-45">
+                            <ul class="pagination-box">
+                                <li>
+                                    <a href="@Url.Action("index","shoe", new{gender=ViewBag.Gender, page=1, brandIds=Model.FilterBrandIds, colorIds=Model.FilterColorIds,minPrice=ViewBag.FilterMinPrice,maxPrice=ViewBag.FilterMaxPrice})" class="single-btn prev-btn" style="@(Model.Shoes.CurrentPage==1? "pointer-events:none;color:#b9b9b9":"") ">
+                                        <i class="ion-ios-skipbackward-outline"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("index","shoe", new{gender=ViewBag.Gender, page=Model.Shoes.CurrentPage-1, brandIds=Model.FilterBrandIds, colorIds=Model.FilterColorIds,minPrice=ViewBag.FilterMinPrice,maxPrice=ViewBag.FilterMaxPrice})" class="single-btn prev-btn " style="@((Model.Shoes.CurrentPage -1)<=0? "pointer-events:none;color:#b9b9b9":"") ">
+                                        <i class="ion-ios-arrow-left"></i>
+                                    </a>
+                                </li>
+                                @if (Model.Shoes.CurrentPage - 2 >= 1)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("index","shoe", new{gender=ViewBag.Gender, page=Model.Shoes.CurrentPage-2, brandIds=Model.FilterBrandIds, colorIds=Model.FilterColorIds,minPrice=ViewBag.FilterMinPrice,maxPrice=ViewBag.FilterMaxPrice})"  tabindex="-1">@("...")</a>
+                                    </li>
+                                }
+
+                                @for (var i = 0; i < 3; i++, temp++)
+                                {
+                                    if (i + 1 > Model.Shoes.TotalPage)
+                                    {
+                                        break;
+                                    }
+                                    <li class="@(temp==0? "active":"")"><a href="@Url.Action("index","shoe", new{gender=ViewBag.Gender, page=Model.Shoes.CurrentPage+temp, brandIds=Model.FilterBrandIds, colorIds=Model.FilterColorIds,minPrice=ViewBag.FilterMinPrice,maxPrice=ViewBag.FilterMaxPrice})" class="single-btn">@(Model.Shoes.CurrentPage+temp)</a></li>
+
+                                }
+                                  @if (Model.Shoes.CurrentPage + 2 <= Model.Shoes.TotalPage)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("index","shoe", new{gender=ViewBag.Gender, page=Model.Shoes.CurrentPage+2, brandIds=Model.FilterBrandIds, colorIds=Model.FilterColorIds,minPrice=ViewBag.FilterMinPrice,maxPrice=ViewBag.FilterMaxPrice})"  tabindex="-1">@("...")</a>
+                                    </li>
+                                }
+
+                                <li>
+                                    <a href="@Url.Action("index","shoe", new{gender=ViewBag.Gender, page=Model.Shoes.CurrentPage+1, brandIds=Model.FilterBrandIds, colorIds=Model.FilterColorIds,minPrice=ViewBag.FilterMinPrice,maxPrice=ViewBag.FilterMaxPrice})" class="single-btn next-btn" style="@((Model.Shoes.CurrentPage +1)>Model.Shoes.TotalPage?"pointer-events:none;color:#b9b9b9":"")">
+                                        <i class="ion-ios-arrow-right"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("index","shoe", new{gender=ViewBag.Gender, page=Model.Shoes.TotalPage , brandIds=Model.FilterBrandIds, colorIds=Model.FilterColorIds,minPrice=ViewBag.FilterMinPrice,maxPrice=ViewBag.FilterMaxPrice})" class="single-btn next-btn" style="@(Model.Shoes.CurrentPage==Model.Shoes.TotalPage?"pointer-events:none;color:#b9b9b9":"")">
+                                        <i class="ion-ios-skipforward-outline"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- end pagination area -->
+                    </div>
+                </div>
+                <!-- shop main wrapper end -->
+            </div>
+        </div>
+    </div>
+    <!-- page main wrapper end -->
+</main>
+<!-- main wrapper end -->
+<!-- Quick view modal start -->
+<div class="modal" id="quick_view">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+    </div>
+</div>
+<!-- Quick view modal end -->
+@section Scripts{
+
+<script>
+    $(document).ready(function () {
+
+
+        var rangeSlider = $(".price-range"),
+        amount = $("#amount"),
+        minPrice = rangeSlider.data('min'),
+        maxPrice = rangeSlider.data('max');
+        rangeSlider.slider({
+        range: true,
+        min: minPrice,
+        max: maxPrice,
+        values: [@((int)ViewBag.FilterMinPrice), @((int)ViewBag.FilterMaxPrice)],
+        slide: function (event, ui) {
+            amount.val("$" + ui.values[0] + " - $" + ui.values[1]);
+        },
+        change:function (event, ui) {
+            $("#minPriceInput").val(ui.values[0]);
+            $("#maxPriceInput").val(ui.values[1]);
+
+        },
+
+    });
+    amount.val(" $" + rangeSlider.slider("values", 0) +
+        " - $" + rangeSlider.slider("values", 1));
+
+
+    })
+</script>
+
+}
+

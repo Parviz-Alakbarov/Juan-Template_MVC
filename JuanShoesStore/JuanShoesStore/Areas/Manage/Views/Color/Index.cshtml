@@ -1,0 +1,114 @@
+﻿@model Pagination<Color>
+@{
+    ViewData["Title"] = "Index";
+    int counter = (Model.CurrentPage - 1) * Model.ItemsPerPage;
+    int temp = -1;
+    int TabPerPage = 3;
+    if (Model.CurrentPage == Model.TotalPage && TabPerPage <= Model.TotalPage) { temp = -2; }
+    if (Model.CurrentPage == 1) { temp = 0; }
+    if (TabPerPage > Model.TotalPage)
+    {
+        TabPerPage = Model.TotalPage;
+    }
+}
+
+<div class="content-wrapper">
+    <div class="container-fluid">
+
+        <div class="row mt-3">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="col-lg-12 d-flex justify-content-between ">
+                            <h5 class="card-title">Color Table</h5>
+
+                            <a asp-action="create" class="btn btn-info mb-2">+ Create Slider</a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Color</th>
+                                        <th scope="col">Shoes Count</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var color in Model)
+                                    {
+                                        counter++;
+
+                                        <tr>
+                                            <th scope="row">@counter</th>
+                                            <td>@color.Name</td>
+                                            <td>
+                                                <input type="color" class="form-control form-control-color" disabled  value="@color.HexValue" title="Choose your color">
+                                            </td>
+                                            <td>@color.ShoeColorItems.Count</td>
+                                            <td class="text-right">
+
+                                                <a asp-action="edit" asp-route-id="@color.Id" class="btn btn-warning">Edit</a>
+                                                <a asp-action="delete" asp-route-id="@color.Id" class="btn btn-danger confirmDelete">Delete</a>
+                                            </td>
+
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-12 mt-3 d-flex justify-content-center">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="page-item @(Model.CurrentPage==1? "disabled" :"")">
+                                        <a class="page-link" asp-route-page="1" tabindex="-1">@("<<")</a>
+                                    </li>
+                                    <li class="page-item @(Model.CurrentPage<=1? "disabled" :"")">
+                                        <a class="page-link" asp-route-page="@(Model.CurrentPage-1)" tabindex="-1">@("<")</a>
+                                    </li>
+
+                                    @if (Model.CurrentPage - 2 >= 1)
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link" asp-route-page="@(Model.CurrentPage-2)"  tabindex="-1">@("...")</a>
+                                        </li>
+                                    }
+
+                                    @for (var i = 1; i <= TabPerPage; i++, temp++)
+                                    {
+                                        <li class="page-item @(temp == 0? " bg-dark" : "")">
+                                            <a class="page-link" asp-route-page="@(Model.CurrentPage+temp)" >@(Model.CurrentPage+temp)</a>
+                                        </li>
+                                    }
+                                    @if (Model.CurrentPage + 2 <= Model.TotalPage)
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link" asp-route-page="@(Model.CurrentPage+2)" tabindex="-1">@("...")</a>
+                                        </li>
+                                    }
+
+                                    <li class="page-item @(Model.CurrentPage>=Model.TotalPage? "disabled" :"")">
+                                        <a class="page-link" asp-route-page="@(Model.CurrentPage+1)" tabindex="-1">@(">")</a>
+                                    </li>
+                                    <li class="page-item @(Model.CurrentPage==Model.TotalPage? "disabled" :"") ">
+                                        <a class="page-link" asp-route-page="@Model.TotalPage"tabindex="-1">@(">>")</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="overlay toggle-menu"></div>
+            <!--end overlay-->
+
+        </div>
+        <!-- End container-fluid-->
+
+    </div><!--End content-wrapper-->
+
+
+</div><!--End wrapper-->

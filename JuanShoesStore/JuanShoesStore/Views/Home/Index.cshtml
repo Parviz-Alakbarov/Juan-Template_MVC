@@ -1,0 +1,271 @@
+﻿@model HomeViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<!-- main wrapper start -->
+<main>
+    <!-- hero slider section start -->
+    <section class="hero-slider">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="hero-slider-active slick-arrow-style slick-arrow-style_hero slick-dot-style">
+
+                        @foreach (Slider slider in Model.Sliders)
+                        {
+                            <div class="hero-single-slide">
+                                <div class="hero-slider-item bg-img" data-bg="/uploads/slider/@slider.Image">
+                                    <div class="hero-slider-content slide-1">
+                                        <h5 class="slide-subtitle">@slider.Subtitle</h5>
+                                        <h2 class="slide-title">@slider.Title</h2>
+                                        <p class="slide-desc">@slider.Desc</p>
+                                        <a href="@slider.RedirectURL" class="btn btn-hero">@slider.BtnText</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- hero slider section end -->
+    <!-- service features start -->
+    <section class="service-policy-area">
+        <div class="container">
+            <div class="row">
+                <!-- single policy item start -->
+                <div class="col-lg-4">
+                    <div class="service-policy-item mt-30 bg-1">
+                        <div class="policy-icon">
+                            <img src="~/uploads/settings/@Model.Settings["Service1-Image"]" alt="policy icon">
+                        </div>
+                        <div class="policy-content">
+                            <h5 class="policy-title">@Model.Settings["Service1-Title"]</h5>
+                            <p class="policy-desc">@Model.Settings["Service1-Desc"]</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- single policy item start -->
+                <!-- single policy item start -->
+                <div class="col-lg-4">
+                    <div class="service-policy-item mt-30 bg-2">
+                        <div class="policy-icon">
+                            <img src="~/uploads/settings/@Model.Settings["Service2-Image"]" alt="policy icon">
+                        </div>
+                        <div class="policy-content">
+                            <h5 class="policy-title">@Model.Settings["Service2-Title"]</h5>
+                            <p class="policy-desc">@Model.Settings["Service2-Desc"]y</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- single policy item start -->
+                <!-- single policy item start -->
+                <div class="col-lg-4">
+                    <div class="service-policy-item mt-30 bg-3">
+                        <div class="policy-icon">
+                            <img src="~/uploads/settings/@Model.Settings["Service3-Image"]" alt="policy icon">
+                        </div>
+                        <div class="policy-content">
+                            <h5 class="policy-title">@Model.Settings["Service3-Title"]</h5>
+                            <p class="policy-desc">@Model.Settings["Service3-Desc"]</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- single policy item start -->
+            </div>
+        </div>
+    </section>
+    <!-- service features end -->
+    <!-- our product area start -->
+    <section class="our-product section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title text-center">
+                        <h2 class="title">Our Product</h2>
+                        <p class="sub-title">Lorem ipsum dolor sit amet consectetur adipisicing</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="product-carousel-4 mbn-50 slick-row-15 slick-arrow-style">
+                        @foreach (Shoe shoe in Model.NewShoes)
+                        {
+                            <!-- product single item start -->
+                            <div class="product-item mb-50">
+                                <div class="product-thumb">
+                                    <a asp-action="detail" asp-controller="shoe" asp-route-id="@shoe.Id">
+                                        <img src="~/uploads/product/@shoe.Image" alt="">
+                                    </a>
+                                </div>
+                                <div class="product-content">
+                                    <h5 class="product-name">
+                                        <a asp-action="detail" asp-controller="shoe" asp-route-id="@shoe.Id">@shoe.Name</a>
+                                    </h5>
+                                    <div class="price-box">
+                                        @if (shoe.DiscountPercent>0)
+                                       {
+                                            <span class="price-regular">$@((shoe.SalePrice*(1-shoe.DiscountPercent/(decimal)100)).ToString("0.00"))</span>
+                                            <span class="price-old"><del>$@shoe.SalePrice</del></span>
+                                        }
+                                        else
+                                        {
+                                             <span class="price-regular">$@(shoe.SalePrice)</span>
+                                        }
+                                    </div>
+                                    <div class="product-action-link">
+                                        <a href="#" data-toggle="tooltip" title="Wishlist"><i class="ion-android-favorite-outline"></i></a>
+                                        <a asp-action="addToBasket" asp-controller="shoe" asp-route-id="@shoe.Id" id="shoe-addTo-basket" data-toggle="tooltip" title="Add To Cart"><i class="ion-bag"></i></a>
+                                        <a asp-action="getShoe" asp-controller="shoe" asp-route-id="@shoe.Id" id="shoe-quick-view">
+                                            <span data-toggle="tooltip"
+                                                  title="Quick View"><i class="ion-ios-eye-outline"></i></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- product single item start -->
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- our product area end -->
+    <!-- banner statistic area start -->
+    <div class="banner-statistics">
+        <div class="container">
+            <div class="row no-gutters mtn-30">
+                <div class="col-md-6">
+                    <div class="img-container mt-30">
+                        <a href="product-details.html">
+                            <img src="~/assets/img/banner/@Model.Settings["Banner1-Image"]" alt="banner-image">
+                        </a>
+                        <div class="banner-text">
+                            <h5 class="banner-subtitle">@Model.Settings["Banner1-Subtitle"]"</h5>
+                            <h3 class="banner-title">@Html.Raw(@Model.Settings["Banner1-Title"])</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="img-container mt-30">
+                        <a href="product-details.html">
+                            <img src="~/assets/img/banner/@Model.Settings["Banner2-Image"]" alt="banner-image">
+                        </a>
+                        <div class="banner-text">
+                            <h5 class="banner-subtitle">@Model.Settings["Banner2-Subtitle"]</h5>
+                            <h3 class="banner-title">@Html.Raw(@Model.Settings["Banner2-Title"])</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner statistic area end -->
+    <!-- top seller area start -->
+    <section class="top-seller-area section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title text-center">
+                        <h2 class="title">top seller</h2>
+                        <p class="sub-title">Lorem ipsum dolor sit amet consectetur adipisicing</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-4 col-lg-5 col-md-5">
+                    <div class="product-banner">
+                        <a href="#">
+                            <img src="~/assets/img/banner/@Model.Settings["BestSellerBannerImage"]" alt="product banner">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-8 col-lg-7 col-md-7">
+                    <div class="top-seller-carousel slick-row-15 mtn-30">
+
+                        @foreach (Shoe shoe in Model.BestSellerShoes)
+                       {
+                           <!-- product item start -->
+                        <div class="slide-item">
+                            <div class="pro-item-small mt-30">
+                                <div class="product-thumb">
+                                    <a asp-action="detail" asp-controller="shoe" asp-route-id="@shoe.Id">
+                                        <img src="~/uploads/product/@shoe.Image" alt="">
+                                    </a>
+                                </div>
+                                <div class="pro-small-content">
+                                    <h6 class="product-name">
+                                        <a asp-action="detail" asp-controller="shoe" asp-route-id="@shoe.Id">@shoe.Name</a>
+                                    </h6>
+                                    <div class="price-box">
+                                        @if (shoe.DiscountPercent>0)
+                                       {
+                                            <span class="price-regular">$@((shoe.SalePrice*(1-shoe.DiscountPercent/(decimal)100)).ToString("0.00"))</span>
+                                            <span class="price-old"><del>$@shoe.SalePrice</del></span>
+                                        }
+                                        else
+                                        {
+                                             <span class="price-regular">$@(shoe.SalePrice)</span>
+                                        }
+                                    </div>
+                                    <div class="ratings">
+                                        @for (var i = 0; i < @shoe.Rate; i++)
+                                       {
+                                            <span><i class="ion-android-star"></i></span>
+                                       }
+                                        
+                                    </div>
+                                    <div class="product-link-2">
+                                        <a href="#" data-toggle="tooltip" title="Wishlist"><i class="ion-android-favorite-outline"></i></a>
+                                        <a asp-action="addToBasket" asp-controller="shoe" asp-route-id="@shoe.Id" id="shoe-addTo-basket" data-toggle="tooltip" title="Add To Cart"><i class="ion-bag"></i></a>
+                                        <a asp-action="getShoe" asp-controller="shoe" asp-route-id="@shoe.Id" id="shoe-quick-view">
+                                            <span data-toggle="tooltip"
+                                                  title="Quick View"><i class="ion-ios-eye-outline"></i></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- top seller area end -->
+    <!-- brand area start -->
+    <div class="brand-area section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="brand-active-carousel">
+
+                        @foreach (var brand in Model.Partners)
+                        {
+                            <div class="brand-item">
+                                <a href="@brand.RedirectURL">
+                                    <img src="~/assets/img/brand/@brand.Image" alt="@brand.Name">
+                                </a>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- brand area end -->
+</main>
+<!-- main wrapper end -->
+<!-- Quick view modal start -->
+<div class="modal" id="quick_view">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      
+    </div>
+</div>
+<!-- Quick view modal end -->

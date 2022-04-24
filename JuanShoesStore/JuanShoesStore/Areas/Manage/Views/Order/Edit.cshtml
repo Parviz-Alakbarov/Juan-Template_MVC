@@ -1,0 +1,92 @@
+﻿@model Order
+@{
+    ViewData["Title"] = "Edit";
+    int counter = 1;
+}
+
+<div class="content-wrapper">
+    <div class="container-fluid">
+
+        <div class="row mt-3">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">Edit Order</div>
+                        <hr>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <h5> Order Detail</h5>
+                                <ul class="list-group">
+                                    <li class="list-group-item">FullName: @Model.FullName</li>
+                                    <li class="list-group-item"><a href="mailto:@Model.Email">Email: @Model.Email </a></li>
+                                    <li class="list-group-item"><a href="tel:@Model.PhoneNumber">Phone: @Model.PhoneNumber</a></li>
+                                    <li class="list-group-item">Order Date: @Model.CreatedAt?.ToString("dd-MMMM-yyy HH:mm")</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5> Order Items</h5>
+                                <ul class="list-group">
+                                    <li class="list-group-item">Country: @Model.Country</li>
+                                    <li class="list-group-item">City: @Model.City</li>
+                                    <li class="list-group-item">Address: @Model.Address</li>
+                                    <li class="list-group-item">Note: @Model.Note</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <table class="table">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Product Name</th>
+                                        <th scope="col">Count</th>
+                                        <th scope="col">Discounted Price</th>
+                                        <th scope="col">Shoe Image</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (OrderItem item in Model.OrderItems)
+                                    {
+                                        <tr>
+                                            <th scope="row">@counter</th>
+                                            <td>@item.Shoe.Name</td>
+                                            <td>@item.Count</td>
+                                            <td>@item.DiscountedPrice</td>
+                                            <td>
+                                                <img style="border-radius:5px" width="70px" src="~/uploads/product/@item.Shoe.Image" />
+                                            </td>
+                                        </tr>
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <form method="post" asp-action="edit" class="d-flex flex-wrap">
+                            <div class="form-group col-lg-12">
+                                <label asp-for="OrderStatus">Order Status</label>
+                                <select asp-for="OrderStatus" class="form-control" asp-items="Html.GetEnumSelectList<JuanShoesStore.Enums.OrderStatus>()"></select>
+                                <span class="text-danger" asp-validation-for="OrderStatus"></span>
+
+                            </div>
+                            <div class="col-lg-12" asp-validation-summary="ModelOnly"></div>
+                            <div class="form-group col-lg-6">
+                                <button type="submit" class="btn btn-light px-5">Edit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <!--start overlay-->
+        <div class="overlay toggle-menu"></div>
+        <!--end overlay-->
+
+    </div>
+    <!-- End container-fluid-->
+
+</div><!--End content-wrapper-->

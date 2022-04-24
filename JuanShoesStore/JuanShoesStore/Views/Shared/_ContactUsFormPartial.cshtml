@@ -1,0 +1,31 @@
+﻿@model ContactUs
+<form id="contact-form" asp-action="ContactUs" asp-controller="home" method="post" class="contact-form">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <input asp-for="Name" placeholder="Name *" required>
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <input asp-for="PhoneNumber" placeholder="Phone Number *" required>
+            <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <input asp-for="Email" placeholder="Email *" required>
+            <span class="text-danger" asp-validation-for="Email"></span>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <input asp-for="Subject" placeholder="Subject *" required>
+            <span class="text-danger" asp-validation-for="Subject"></span>
+        </div>
+        <div class="col-12">
+            <div class="contact2-textarea text-center">
+                <textarea placeholder="Message *" asp-for="Message" class="form-control2" required=""></textarea>
+            </div>
+            <div class="contact-btn">
+                <button class="btn" type="submit">Send Message</button>
+            </div>
+        </div>
+        <div class="col-12" asp-validation-summary="ModelOnly">
+        </div>
+    </div>
+</form>

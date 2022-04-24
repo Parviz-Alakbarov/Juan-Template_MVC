@@ -1,0 +1,83 @@
+﻿@model MemberUpdateViewModel
+<form action="EditProfile" method="post">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="single-input-item">
+                <label asp-for="UserName" class="required">User Name</label>
+                <input asp-for="UserName" placeholder="Enter UserName" />
+                <span class="text-danger" asp-validation-for="UserName"></span>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="single-input-item">
+                <label asp-for="FullName" class="required">Full Name</label>
+                <input asp-for="FullName" placeholder="Enter FullName" />
+                <span class="text-danger" asp-validation-for="FullName"></span>
+            </div>
+        </div>
+    </div>
+    <div class="single-input-item">
+        <label asp-for="Email" class="required">Email</label>
+        <input asp-for="Email" placeholder="Enter Email" />
+        <span class="text-danger" asp-validation-for="Email"></span>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="single-input-item">
+                <label asp-for="Country">Country Name</label>
+                <input asp-for="Country" placeholder="Enter Country" />
+                <span class="text-danger" asp-validation-for="Country"></span>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="single-input-item">
+                <label asp-for="City">City Name</label>
+                <input asp-for="City" placeholder="Enter CityName" />
+                <span class="text-danger" asp-validation-for="City"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="single-input-item">
+                <label asp-for="Address">Address</label>
+                <input asp-for="Address" placeholder="Enter Address" />
+                <span class="text-danger" asp-validation-for="Address"></span>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="single-input-item">
+                <label asp-for="Phone">Phone Number</label>
+                <input asp-for="Phone" placeholder="Enter Phone" />
+                <span class="text-danger" asp-validation-for="Phone"></span>
+            </div>
+        </div>
+    </div>
+    <fieldset>
+        <legend>Password change</legend>
+        <div class="single-input-item">
+            <label asp-for="Password" class="required">Current Password</label>
+            <input asp-for="Password" placeholder="Enter Current Password" />
+            <span class="text-danger" asp-validation-for="Password"></span>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="single-input-item">
+                    <label asp-for="NewPassword" class="required">New Password</label>
+                    <input asp-for="NewPassword" placeholder="Enter New Password" />
+                    <span class="text-danger" asp-validation-for="NewPassword"></span>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="single-input-item">
+                    <label asp-for="ConfirmPassword" class="required">Confirm Password</label>
+                    <input asp-for="ConfirmPassword" placeholder="Enter Password" />
+                    <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <div class="single-input-item">
+        <button type="submit" class="check-btn sqr-btn btn btn-primary">Save Changes</button>
+    </div>
+</form>
